@@ -21,7 +21,7 @@ void setup(){
     radio.setChannel(10);                                  // Указываем канал передачи данных (от 0 до 127), 5 - значит передача данных осуществляется на частоте 2,405 ГГц (на одном канале может быть только 1 приёмник и до 6 передатчиков)
     radio.setDataRate     (RF24_1MBPS);                   // Указываем скорость передачи данных (RF24_250KBPS, RF24_1MBPS, RF24_2MBPS), RF24_1MBPS - 1Мбит/сек
     radio.setPALevel      (RF24_PA_HIGH);                 // Указываем мощность передатчика (RF24_PA_MIN=-18dBm, RF24_PA_LOW=-12dBm, RF24_PA_HIGH=-6dBm, RF24_PA_MAX=0dBm)
-    radio.openWritingPipe (0x1234567890LL);               // Открываем трубу с идентификатором 0x1234567890 для передачи данных (на одном канале может быть открыто до 6 разных труб, которые должны отличаться только последним байтом идентификатора)
+    radio.openWritingPipe (0x1234567DABLL);               // Открываем трубу с идентификатором 0x1234567890 для передачи данных (на одном канале может быть открыто до 6 разных труб, которые должны отличаться только последним байтом идентификатора)
     //radio.stoptListening(); // try to uncomment this if radio doesn't work
 }
 void loop(){
@@ -30,7 +30,7 @@ void loop(){
     yPosition = analogRead(xPin);
     PushButton = digitalRead(zPin);
 
-    if (PushButton == 1) {switcher = -1*switcher; delay(50);} // При нажатии кнопки переписываем значение статуса орудия
+    if (PushButton == 1) {switcher = -1*switcher; delay(100);} // При нажатии кнопки переписываем значение статуса орудия
     data[3] = switcher;
 
     Serial.print("Push ");
@@ -60,7 +60,7 @@ void loop(){
     Serial.print("Y ");
     Serial.println(data[2]);
 
-    delay(50);
+    delay(10);
    
     radio.write(&data, sizeof(data));  // указывая сколько байт массива мы хотим отправить. с проверкой их доставки: if( radio.write(&data, sizeof(data)) ){ приняты;}else{не приняты приёмником;}
 
